@@ -4,8 +4,14 @@ from colorama import Fore
 import tweepy
 import secret
 
-auth = tweepy.OAuth1UserHandler(secret.CONSUMER_KEY, secret.CONSUMER_SECRET, secret.ACCESS_TOKEN, secret.ACCESS_TOKEN_SECRET)
-api = tweepy.API(auth)
+
+client = tweepy.Client(
+   consumer_key=secret.CONSUMER_KEY,
+   consumer_secret=secret.CONSUMER_SECRET,
+   access_token=secret.ACCESS_TOKEN,
+   access_token_secret=secret.ACCESS_TOKEN_SECRET
+)
+
 
 def get_txt(quote):
    dots = 1
@@ -52,10 +58,9 @@ def tweet():
          if int(quote_num) == int(rand_quote_num): quote = line
          quote_num += 1
 
-   x = get_txt(quote), "-", testament
-   status = api.update_status(status=x)
+   status = client.create_tweet(text=get_txt(quote)+" - " + testament)
    print(status)
 
 while True:
    tweet()
-   time.sleep(43200)
+   time.sleep(40000)
